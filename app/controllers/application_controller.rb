@@ -4,16 +4,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_access_level
-  before_action :set_roster_id
+  before_action :set_roster
 
   private
 
   def set_access_level
-    ApplicationRecord.access_level = "roster"
+    ApplicationRecord.access_level = params[:access_level] || "roster"
   end
 
-  def set_roster_id
-    ApplicationRecord.roster = current_roster.id
+  def set_roster
+    ApplicationRecord.roster = params[:access_level].nil? ? current_roster : nil
   end
 
   def current_roster
