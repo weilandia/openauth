@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: rollcall_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres:/usr/share/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: rollcall_redis
+    restart: always
+    ports:
+      - 6380:6379
+    volumes:
+      - redis:/usr/share/redis/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: rollcall_pgadmin
+    ports:
+      - 81:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@rollcall.com
+      PGADMIN_DEFAULT_PASSWORD: pgadmin
+
+volumes:
+  postgres:
+  redis:

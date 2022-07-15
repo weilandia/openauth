@@ -1,0 +1,17 @@
+<h1>Users#index</h1>
+
+<p>Roster: <%= current_roster&.name %></p>
+
+<p>User Count: <%= User.count %></p>
+
+<% User.all.map do |user| %>
+  <p><%= user.email %></p>
+<% end %>
+<p>
+  Access Level: <%= ActiveRecord::Base.connection.execute("SELECT current_setting('session.access_level'::text)")[0] %>
+</p>
+
+<p>
+  Roster ID: <%= ActiveRecord::Base.connection.execute("SELECT current_setting('session.roster_id'::text)")[0]
+%>
+</p>

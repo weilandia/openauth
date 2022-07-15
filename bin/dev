@@ -1,0 +1,40 @@
+#!/bin/sh
+echo "Welcome to rollcall 👋"
+
+DevHelp()
+{
+   echo
+   echo "options:"
+   echo "up         Starts dev services."
+   echo "stop       Stops all services."
+   echo "build      Builds dev services."
+   echo "psql       Opens psql."
+   echo "redis-cli  Opens redis-cli."
+   echo "ps         Returns status of containers."
+   echo "logs       Tails container logs."
+   echo "images     Lists images."
+   echo
+}
+
+DC_FILE=".docker/docker-compose.dev.yml"
+DC_APP="rollcall_dev"
+
+if [ "$1" = "up" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" up -d
+elif [ "$1" = "stop" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" stop
+elif [ "$1" = "build" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" build
+elif [ "$1" = "psql" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" exec postgres psql -U "postgres"
+elif [ "$1" = "redis-cli" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" exec redis redis-cli
+elif [ "$1" = "ps" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" ps
+elif [ "$1" = "logs" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" logs -f
+elif [ "$1" = "images" ] ; then
+  docker-compose -f "$DC_FILE" -p "$DC_APP" images
+else
+  DevHelp
+fi
